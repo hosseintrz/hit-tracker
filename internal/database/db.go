@@ -3,8 +3,8 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"github.com/cenkalti/backoff/v4"
 	"github.com/labstack/gommon/log"
+	_ "github.com/lib/pq"
 	"os"
 )
 
@@ -26,8 +26,10 @@ func InitStore() (*sql.DB, error) {
 		db, err = sql.Open("postgres", pgConnString)
 		return err
 	}
+	log.Infof(`db config: %s`, pgConnString)
 	log.Info("connecting to database")
-	err = backoff.Retry(openDB, backoff.NewExponentialBackOff())
+	//err = backoff.Retry(openDB, backoff.NewExponentialBackOff())
+	err = openDB()
 	if err != nil {
 		return nil, err
 	}

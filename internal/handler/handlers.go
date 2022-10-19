@@ -44,7 +44,7 @@ func RootHandler(db *sql.DB, c echo.Context) error {
 		}
 	} else {
 		var visit model.Visit
-		if err := rows.Scan(&visit); err != nil {
+		if err := rows.Scan(&visit.UserIp, &visit.URL, &visit.Count); err != nil {
 			return err
 		}
 		count = visit.Count + 1
