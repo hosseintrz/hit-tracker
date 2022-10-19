@@ -7,7 +7,7 @@ services:
     build:
       context: .
     container_name: hit-tracker
-    hostname: hit-tracker
+    image: hit-tracker
     networks:
       - mynet
     ports:
