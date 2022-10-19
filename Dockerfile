@@ -7,7 +7,7 @@ WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 COPY *.go ./
-COPY internal ./
+COPY internal ./internal
 RUN go mod tidy
 RUN go mod download
 

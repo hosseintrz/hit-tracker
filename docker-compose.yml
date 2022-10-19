@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  hit-tracker:
+    depends_on: 
+      - roach
+    build:
+      context: .
+    container_name: hit-tracker
+    hostname: hit-tracker
+    networks:
+      - mynet
+    ports:
+      - 80:9090
+    environment:
+      - PGUSER=${PGUSER:-totoro}
+      - PGPASSWORD=${PGPASSWORD:?database password not set}
+      - PGHOST=${PGHOST:-db}
+      - PGPORT=${PGPORT:-26257}
+      - PGDATABASE=${PGDATABASE:-mydb}
+    deploy:
+      restart_policy:
+        condition: on-failure
+  roach:
+    image: cockroachdb/cockroach:latest
+    container_name: roach
+    hostname: db
+    networks:
+      - mynet
+    ports:
+      - 26257:26257
+      - 9090:9090
+    volumes:
+      - roach:/cockroach/cockroach-data
+    command: start-single-node --insecure
+
+volumes:
+  roach:
+
+networks:
+  mynet:
+    driver: bridge
