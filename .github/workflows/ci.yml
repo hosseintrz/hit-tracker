@@ -34,15 +34,19 @@ jobs:
         run : netstat -tulpn
       
       - name: test curl 80
+        if: always()
         run: curl localhost
         
       - name: test curl 9090
+        if: always()  
         run: curl localhost:9090
         
       - name: test curl 9090 in hit-tracker container
+        if: always()
         run: docker exec -it hit-tracker curl localhost:9090/ping
       
       - name: Run functional tests
+        if: always()
         run:  go clean -testcache && go test -v test/main_test.go 
         
       - name: Docker stop containers
