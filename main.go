@@ -20,7 +20,7 @@ func main() {
 	//database
 	db, err := database.InitStore()
 	if err != nil {
-		logger.Fatalf("couldn't open database -> \n %s \n", err.Error())
+		logger.Fatalf("couldn't open database ->  %s ", err.Error())
 	}
 	defer db.Close()
 
