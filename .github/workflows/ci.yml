@@ -23,6 +23,8 @@ jobs:
         run:  go build -v ./...
 
       - name: Starting containers with docker compose
+        env:
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
         run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Run functional tests
