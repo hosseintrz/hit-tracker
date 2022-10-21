@@ -27,6 +27,12 @@ jobs:
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
         run: docker-compose -f "docker-compose.yml" up -d --build
 
+      - name: run docker ps
+        run : docker ps -a
+        
+      - name: run netstat 
+        run : netstat -tulpn
+
       - name: Run functional tests
         run:  go clean -testcache && go test -v test/main_test.go 
         
