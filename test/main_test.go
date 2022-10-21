@@ -7,16 +7,24 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
+	"time"
 )
 
 func TestHealthCheck(t *testing.T) {
 	var response *http.Response
 	var err error
+	timer := time.After(15 * time.Second)
+
 	err = backoff.Retry(func() error {
 		t.Log(fmt.Sprint("url : ", "localhost:80/ping"))
 		response, err = http.Get("http://0.0.0.0:80/ping")
 		if err != nil {
-			return err
+			select {
+			case <-timer:
+				t.FailNow()
+			default:
+				return err
+			}
 		}
 		return nil
 	}, backoff.NewExponentialBackOff())
