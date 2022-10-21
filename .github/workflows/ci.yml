@@ -18,14 +18,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Fetch required Go modules
-        run:  go mod download
+        #- name: Fetch required Go modules
+        #run:  go mod download
 
-      - name: Build
-        run:  go build -v ./...
+        #- name: Build
+        #  run:  go build -v ./...
 
       - name: Starting containers with docker compose
-        run: docker-compose -f "docker-compose.yml" up -d --build
+        run: docker-compose -f "docker-compose.yml" up --build
 
       - name: run docker ps
         run : docker ps -a
@@ -33,13 +33,13 @@ jobs:
       - name: run netstat 
         run : netstat -tulpn
       
-      - name: test curl 80
+      - name: test curl 0.0.0.0:9090
         if: always()
-        run: curl 0.0.0.0:80
-        
-      - name: test curl 9090
-        if: always()  
         run: curl 0.0.0.0:9090
+        
+      - name: test curl http://0.0.0.0:9090
+        if: always()  
+        run: curl http://0.0.0.0:9090
         
       - name: test curl 9090 in hit-tracker container
         if: always()

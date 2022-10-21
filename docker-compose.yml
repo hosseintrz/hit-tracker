@@ -11,7 +11,7 @@ services:
     networks:
       - mynet
     ports:
-      - 80:9090
+      - 9090:9090
     environment:
       - PGUSER=${PGUSER:-totoro}
       - PGPASSWORD=${PGPASSWORD:?database password not set}
@@ -29,7 +29,7 @@ services:
       - mynet
     ports:
       - 26257:26257
-      - 9090:9090
+        # - 9090:9090
     volumes:
       - roach:/cockroach/cockroach-data
     command: start-single-node --insecure

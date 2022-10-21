@@ -14,10 +14,10 @@ func TestHealthCheck(t *testing.T) {
 	var response *http.Response
 	var err error
 	timer := time.After(15 * time.Second)
-
+	port := 9090
 	err = backoff.Retry(func() error {
-		t.Log(fmt.Sprint("url : ", "localhost:80/ping"))
-		response, err = http.Get("http://0.0.0.0:80/ping")
+		t.Log(fmt.Sprint("url : ", "http://0.0.0.0:9090/ping"))
+		response, err = http.Get(fmt.Sprintf("http://0.0.0.0:%d/ping", port))
 		if err != nil {
 			select {
 			case <-timer:
