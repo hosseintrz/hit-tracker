@@ -22,11 +22,12 @@ jobs:
       - name: Build
         run:  go build -v ./...
 
-      - name: Build Docker image
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          tags: ${{ github.event.repository.name }}:latest, ${{ github.repository }}:latest
+      - name: Starting containers with docker compose
+        run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Run functional tests
-        run:  go test -v ./...
+        run:  go clean -testcache && go test -v test/main_test.go 
+        
+      - name: Docker stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
