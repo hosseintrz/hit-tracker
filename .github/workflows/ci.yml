@@ -35,15 +35,19 @@ jobs:
       
       - name: test curl 80
         if: always()
-        run: curl localhost
+        run: curl 0.0.0.0:80
         
       - name: test curl 9090
         if: always()  
-        run: curl localhost:9090
+        run: curl 0.0.0.0:9090
         
       - name: test curl 9090 in hit-tracker container
         if: always()
-        run: docker exec -it hit-tracker curl localhost:9090/ping
+        run: docker exec hit-tracker curl localhost:9090/ping
+        
+      - name: test curl 0.0.0.0:9090 in hit-tracker container
+        if: always()
+        run: docker exec hit-tracker curl 0.0.0.0:9090/ping
       
       - name: Run functional tests
         if: always()
